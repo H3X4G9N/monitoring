@@ -1,1 +1,1 @@
-Šo failu izdsēt pēc Android applikācijas projekta failu pievienošanas.
+Šo failu izdsēt pēc Android applikācijas failu pievienošanas.
