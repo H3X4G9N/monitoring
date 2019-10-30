@@ -1,2 +1,1 @@
-# Monitoring (Android aplikācija)
-Uz Android aplikācijas strādā Aleksejs Pivens un Ņikita Terentjevs.
+Šo failu izdsēt pēc Android applikācijas projekta failu pievienošanas.
