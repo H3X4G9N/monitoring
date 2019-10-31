@@ -1,23 +1,25 @@
 package monitoring;
 
 import javafx.application.Application;
-import javafx.stage.Stage;
-import javafx.scene.Scene;
-import javafx.scene.layout.VBox;
-import javafx.scene.layout.HBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.Button;
-import javafx.scene.control.Separator;
-import javafx.scene.control.Hyperlink;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.image.ImageView;
+import javafx.geometry.Pos;
+import javafx.geometry.Insets;
+import javafx.scene.control.Button;
+import javafx.scene.control.Hyperlink;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.Separator;
+import javafx.scene.control.TextField;
+import javafx.scene.Group;
 import javafx.scene.image.Image;
-import java.io.FileInputStream; 
-import java.io.FileNotFoundException; 
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
 public class Main extends Application {
     public static void main(String[] args) {
@@ -25,222 +27,241 @@ public class Main extends Application {
     }
 	
 	@Override
-	public void start(Stage stage) throws FileNotFoundException {
-		VBox signInVB = new VBox();
-		VBox signUpVB = new VBox();
-		VBox resetPasswordVB = new VBox();
-		VBox dashboardVB = new VBox();
+	public void start(Stage stage) throws Exception {
+		VBox signInRoot = new VBox();
+		signInRoot.setAlignment(Pos.CENTER);
 		
-		Scene scene = new Scene(signInVB);
+		VBox signUpRoot = new VBox();
+		signUpRoot.setAlignment(Pos.CENTER);
+		
+		VBox resetPasswordRoot = new VBox();
+		resetPasswordRoot.setAlignment(Pos.CENTER);
+		
+		VBox dashboardRoot = new VBox();
+		
+		Scene scene = new Scene(signInRoot);
 		
 		{
-			Label emailL = new Label("Email");
-			signInVB.getChildren().add(emailL);
+			VBox container = new VBox();
+			container.setMinWidth(320);
+			container.setMinHeight(180);
+			container.setPrefWidth(320);
+			container.setPrefHeight(180);
+			signInRoot.getChildren().add(new Group(container));
 			
-			TextField emailTF = new TextField();
-			signInVB.getChildren().add(emailTF);
+			Label emailLabel = new Label("Email");
+			container.getChildren().add(emailLabel);
 			
-			Label passwordL = new Label("Password");
-			signInVB.getChildren().add(passwordL);
+			TextField emailInput = new TextField();
+			VBox.setMargin(emailInput, new Insets(0, 0, 16, 0));
+			container.getChildren().add(emailInput);
 			
-			PasswordField passwordPF = new PasswordField();
-			signInVB.getChildren().add(passwordPF);
+			Label passwordLabel = new Label("Password");
+			container.getChildren().add(passwordLabel);
 			
-			Button signInB = new Button("Sign in");	
+			PasswordField passwordInput = new PasswordField();
+			VBox.setMargin(passwordInput, new Insets(0, 0, 16, 0));
+			container.getChildren().add(passwordInput);
 			
-			signInB.setOnAction(new EventHandler<ActionEvent>() {
+			Button signInButton = new Button("Sign in");
+			signInButton.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
-                	scene.setRoot(dashboardVB);
+                	scene.setRoot(dashboardRoot);
                 }
             });
+			container.getChildren().add(signInButton);
 			
-			signInVB.getChildren().add(signInB);
+			Separator separator = new Separator();
+			separator.setMinHeight(32);
+			container.getChildren().add(separator);
 			
-			Separator separator1 = new Separator();
-			signInVB.getChildren().add(separator1);
-			
-			Hyperlink signUpHL = new Hyperlink("Sign up");
-			
-			signUpHL.setOnAction(new EventHandler<ActionEvent>() {
+			Hyperlink signUpLink = new Hyperlink("Sign up");
+			signUpLink.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
-                	scene.setRoot(signUpVB);
+                	scene.setRoot(signUpRoot);
                 }
             });
+			container.getChildren().add(signUpLink);
 			
-			signInVB.getChildren().add(signUpHL);
-			
-			Hyperlink resetPasswordUpHL = new Hyperlink("Reset password");
-			
-			resetPasswordUpHL.setOnAction(new EventHandler<ActionEvent>() {
+			Hyperlink resetPasswordLink = new Hyperlink("Reset password");
+			resetPasswordLink.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
-                	scene.setRoot(resetPasswordVB);
+                	scene.setRoot(resetPasswordRoot);
                 }
             });
-			
-			signInVB.getChildren().add(resetPasswordUpHL);
+			container.getChildren().add(resetPasswordLink);
 		}
 		
 		{
-			Label emailL = new Label("Email");
-			signUpVB.getChildren().add(emailL);
+			VBox container = new VBox();
+			container.setMinWidth(320);
+			container.setMinHeight(180);
+			container.setPrefWidth(320);
+			container.setPrefHeight(180);
+			signUpRoot.getChildren().add(new Group(container));
 			
-			TextField emailTF = new TextField();
-			signUpVB.getChildren().add(emailTF);
+			Label emailLabel = new Label("Email");
+			container.getChildren().add(emailLabel);
 			
-			Label passwordL = new Label("Password");
-			signUpVB.getChildren().add(passwordL);
+			TextField emailInput = new TextField();
+			VBox.setMargin(emailInput, new Insets(0, 0, 16, 0));
+			container.getChildren().add(emailInput);
 			
-			PasswordField passwordPF = new PasswordField();
-			signUpVB.getChildren().add(passwordPF);
+			Label passwordLabel = new Label("Password");
+			container.getChildren().add(passwordLabel);
 			
-			Label passwordConfirmationL = new Label("Password confirmation");
-			signUpVB.getChildren().add(passwordConfirmationL);
+			PasswordField passwordInput = new PasswordField();
+			VBox.setMargin(passwordInput, new Insets(0, 0, 16, 0));
+			container.getChildren().add(passwordInput);
 			
-			PasswordField passwordConfirmationPF = new PasswordField();
-			signUpVB.getChildren().add(passwordConfirmationPF);
+			Label passwordConfirmationLabel = new Label("Password confirmation");
+			container.getChildren().add(passwordConfirmationLabel);
 			
-			Button signUpB = new Button("Sign up");
+			PasswordField passwordConfirmationInput = new PasswordField();
+			VBox.setMargin(passwordConfirmationInput, new Insets(0, 0, 16, 0));
+			container.getChildren().add(passwordConfirmationInput);
 			
-			signUpB.setOnAction(new EventHandler<ActionEvent>() {
+			Button signUpButton = new Button("Sign up");
+			signUpButton.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
-                	scene.setRoot(dashboardVB);
+                	scene.setRoot(dashboardRoot);
                 }
             });
+			container.getChildren().add(signUpButton);
 			
-			signUpVB.getChildren().add(signUpB);
+			Separator separator = new Separator();
+			separator.setMinHeight(32);
+			container.getChildren().add(separator);
 			
-			Separator separator1 = new Separator();
-			signUpVB.getChildren().add(separator1);
-			
-			Hyperlink signUpHL = new Hyperlink("Sign in");
-			
-			signUpHL.setOnAction(new EventHandler<ActionEvent>() {
+			Hyperlink signUpLink = new Hyperlink("Sign in");
+			signUpLink.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
-                	scene.setRoot(signInVB);
+                	scene.setRoot(signInRoot);
                 }
             });
+			container.getChildren().add(signUpLink);
 			
-			signUpVB.getChildren().add(signUpHL);
-			
-			Hyperlink resetPasswordUpHL = new Hyperlink("Reset password");
-			
-			resetPasswordUpHL.setOnAction(new EventHandler<ActionEvent>() {
+			Hyperlink resetPasswordLink = new Hyperlink("Reset password");
+			resetPasswordLink.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
-                	scene.setRoot(resetPasswordVB);
+                	scene.setRoot(resetPasswordRoot);
                 }
             });
-			
-			signUpVB.getChildren().add(resetPasswordUpHL);
+			container.getChildren().add(resetPasswordLink);
 		}
 		
 		{
-			Label emailL = new Label("Email");
-			resetPasswordVB.getChildren().add(emailL);
+			VBox container = new VBox();
+			container.setMinWidth(320);
+			container.setMinHeight(180);
+			container.setPrefWidth(320);
+			container.setPrefHeight(180);
+			resetPasswordRoot.getChildren().add(new Group(container));
 			
-			TextField emailTF = new TextField();
-			resetPasswordVB.getChildren().add(emailTF);
+			Label emailLabel = new Label("Email");
+			container.getChildren().add(emailLabel);
 			
-			Button signInB = new Button("Reset password");
-			resetPasswordVB.getChildren().add(signInB);
+			TextField emailInput = new TextField();
+			VBox.setMargin(emailInput, new Insets(0, 0, 16, 0));
+			container.getChildren().add(emailInput);
 			
-			Separator separator1 = new Separator();
-			resetPasswordVB.getChildren().add(separator1);
+			Button resetPasswordButton = new Button("Reset password");
+			container.getChildren().add(resetPasswordButton);
 			
-			Hyperlink signInHL = new Hyperlink("Sign in");
+			Separator separator = new Separator();
+			separator.setMinHeight(32);
+			container.getChildren().add(separator);
 			
-			signInHL.setOnAction(new EventHandler<ActionEvent>() {
+			Hyperlink signInLink = new Hyperlink("Sign in");
+			signInLink.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
-                	scene.setRoot(signInVB);
+                	scene.setRoot(signInRoot);
                 }
             });
+			container.getChildren().add(signInLink);
 			
-			resetPasswordVB.getChildren().add(signInHL);
-			
-			Hyperlink signUpHL = new Hyperlink("Sign up");
-			
-			signUpHL.setOnAction(new EventHandler<ActionEvent>() {
+			Hyperlink signUpLink = new Hyperlink("Sign up");
+			signUpLink.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
-                	scene.setRoot(signUpVB);
+                	scene.setRoot(signUpRoot);
                 }
             });
-			
-			resetPasswordVB.getChildren().add(signUpHL);
+			container.getChildren().add(signUpLink);
 		}
 		
 		{
-			HBox unnamed1 = new HBox();
-			dashboardVB.getChildren().add(unnamed1);
+			Image logoImage = new Image(getClass().getResource("/res/img/logo.png").toExternalForm());
+			Image dashboardImage = new Image(getClass().getResource("/res/img/dashboard.png").toExternalForm());
+			Image serverImage = new Image(getClass().getResource("/res/img/server.png").toExternalForm());
+			Image dataCollectorsImage = new Image(getClass().getResource("/res/img/data_collectors.png").toExternalForm());
+			Image settingsImage = new Image(getClass().getResource("/res/img/settings.png").toExternalForm());
 			
+			HBox topBar = new HBox();
+			dashboardRoot.getChildren().add(topBar);
 
-			Image logoI = new Image(getClass().getResource("/res/img/logo.png").toExternalForm());
-			Image dashboardI = new Image(getClass().getResource("/res/img/dashboard.png").toExternalForm());
-			Image serverI = new Image(getClass().getResource("/res/img/server.png").toExternalForm());
-			Image dataCollectorsI = new Image(getClass().getResource("/res/img/data_collectors.png").toExternalForm());
-			Image settingsI = new Image(getClass().getResource("/res/img/settings.png").toExternalForm());
-
-			ImageView logoIV = new ImageView();
-			logoIV.setFitWidth(32);
-			logoIV.setFitHeight(32);
-			logoIV.setImage(logoI);
+			ImageView logoIcon = new ImageView();
+			logoIcon.setImage(logoImage);
+			logoIcon.setFitWidth(32);
+			logoIcon.setFitHeight(32);
+			topBar.getChildren().add(logoIcon);
 			
-			unnamed1.getChildren().add(logoIV);
+			Label appName = new Label("Monitoring");
+			topBar.getChildren().add(appName);
 			
-			Label companyName = new Label("Monitoring");
-			unnamed1.getChildren().add(companyName);
+			HBox section = new HBox();
+			dashboardRoot.getChildren().add(section);
 			
-			HBox unnamed2 = new HBox();
-			dashboardVB.getChildren().add(unnamed2);
+			VBox sideBar = new VBox();
+			section.getChildren().add(sideBar);
 			
-			VBox unnamed3 = new VBox();
-			unnamed2.getChildren().add(unnamed3);
+			Button dashboardButton = new Button("Dashboard");
+			sideBar.getChildren().add(dashboardButton);
 			
-			Button dashboardB = new Button("Dashboard");
-			unnamed3.getChildren().add(dashboardB);
+			ImageView dashboardIcon = new ImageView();
+			dashboardIcon.setImage(dashboardImage);
+			dashboardIcon.setFitWidth(32);
+			dashboardIcon.setFitHeight(32);
+			dashboardButton.setGraphic(dashboardIcon);
 			
-			ImageView dashboardIV = new ImageView();
-			dashboardIV.setImage(dashboardI);
-			dashboardIV.setFitWidth(32);
-			dashboardIV.setFitHeight(32);
-			dashboardB.setGraphic(dashboardIV);
+			Button serverButton = new Button("Server");
+			sideBar.getChildren().add(serverButton);
 			
-			Button serverB = new Button("Server");
-			unnamed3.getChildren().add(serverB);
+			ImageView serverIcon = new ImageView();
+			serverIcon.setImage(serverImage);
+			serverIcon.setFitWidth(32);
+			serverIcon.setFitHeight(32);
+			serverButton.setGraphic(serverIcon);
 			
-			ImageView serverIV = new ImageView();
-			serverIV.setImage(serverI);
-			serverIV.setFitWidth(32);
-			serverIV.setFitHeight(32);
-			serverB.setGraphic(serverIV);
+			Button dataCollectorsButton = new Button("Data collectors");
+			sideBar.getChildren().add(dataCollectorsButton);
 			
-			Button dataCollectorsB = new Button("Data collectors");
-			unnamed3.getChildren().add(dataCollectorsB);
+			ImageView dataCollectorsIcon = new ImageView();
+			dataCollectorsIcon.setImage(dataCollectorsImage);
+			dataCollectorsIcon.setFitWidth(32);
+			dataCollectorsIcon.setFitHeight(32);
+			dataCollectorsButton.setGraphic(dataCollectorsIcon);
 			
-			ImageView dataCollectorsIV = new ImageView();
-			dataCollectorsIV.setImage(dataCollectorsI);
-			dataCollectorsIV.setFitWidth(32);
-			dataCollectorsIV.setFitHeight(32);
-			dataCollectorsB.setGraphic(dataCollectorsIV);
+			Button settingsButton = new Button("Settings");
+			sideBar.getChildren().add(settingsButton);
 			
-			Button settingsB = new Button("Settings");
-			unnamed3.getChildren().add(settingsB);
-			
-			ImageView settingsIV = new ImageView();
-			settingsIV.setImage(settingsI);
-			settingsIV.setFitWidth(32);
-			settingsIV.setFitHeight(32);
-			settingsB.setGraphic(settingsIV);
+			ImageView settingsIcon = new ImageView();
+			settingsIcon.setImage(settingsImage);
+			settingsIcon.setFitWidth(32);
+			settingsIcon.setFitHeight(32);
+			settingsButton.setGraphic(settingsIcon);
 		}
 		
 		stage.setTitle("Monitoring");
 		stage.setScene(scene);
+		stage.setMaximized(true);
 		stage.show();
 	}
 }
