@@ -26,8 +26,13 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.Axis;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import monitoring.Card;
 import monitoring.EditableText;
+import javafx.scene.control.DatePicker;
 
 
 public class Main extends Application {	
@@ -223,13 +228,15 @@ public class Main extends Application {
 		column3Center.setPercentWidth(1.0 / 3.0 * 100.0);
 		column3Center.setHalignment(HPos.CENTER);
 	
-		ScrollPane content = new ScrollPane();
+		ScrollPane sectionContainer = new ScrollPane();
 		GridPane test = new GridPane();
 		VBox dataCollectorContainer;
 		
+		VBox dashboardContainer = new VBox();
+		
 		{
 			dataCollectorContainer = new VBox();
-			content.setContent(dataCollectorContainer);
+			sectionContainer.setContent(dataCollectorContainer);
 			
 		
 			EditableText name = new EditableText("Name", TextType.Field);
@@ -270,10 +277,10 @@ public class Main extends Application {
 			section.getItems().add(sideBar);
 
 	
-			HBox.setHgrow(content, Priority.ALWAYS);
-			HBox.setMargin(content, new Insets(0, 0, 0, 8));
-			content.setStyle("-fx-background-color:#f0f0f0");
-			section.getItems().add(content);
+			HBox.setHgrow(sectionContainer, Priority.ALWAYS);
+			HBox.setMargin(sectionContainer, new Insets(0, 0, 0, 8));
+			sectionContainer.setStyle("-fx-background-color:#f0f0f0");
+			section.getItems().add(sectionContainer);
 
 			ImageView logoIcon = new ImageView();
 			logoIcon.setImage(logoImage);
@@ -300,7 +307,7 @@ public class Main extends Application {
 			dashboardButton.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent event) {
-					content.setContent(test);
+					sectionContainer.setContent(dashboardContainer);
 				}
 				});
 			
@@ -331,7 +338,7 @@ public class Main extends Application {
 			dataCollectorsButton.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent event) {
-					content.setContent(dataCollectorContainer);
+					sectionContainer.setContent(dataCollectorContainer);
 				}
 				});
 			
@@ -355,62 +362,94 @@ public class Main extends Application {
 			settingsButton.setGraphic(settingsIcon);
 
 
-			content.setPadding(new Insets(8, 8, 8, 8));
+			sectionContainer.setPadding(new Insets(8, 8, 8, 8));
 
-			content.setFitToWidth(true);
-
-
-
-
-			test.getColumnConstraints().add(column3Left);
-			test.getColumnConstraints().add(column3Left);
-			test.getColumnConstraints().add(column3Left);
-			test.setStyle("-fx-background-color:#e3e3e3");
-			test.setPadding(new Insets(16, 16, 16, 16));
-
-
-			Label dashboardLable = new Label("Dasboard");
-			dashboardLable.setStyle("-fx-font-size:32");
-			test.add(dashboardLable, 0, 0, 3, 1);
-			GridPane.setMargin(dashboardLable, new Insets(0, 0, 8, 0));
-
-
-			HBox card1 = new HBox();
-			VBox card1_info = new VBox();
-			card1.getChildren().add(card1_info);
-			Label averageTemperatureLabel = new Label("Average temperature");
-			card1_info.getChildren().add(averageTemperatureLabel);
-			Label averageTemperature = new Label("69 C");
-			averageTemperature.setStyle("-fx-font-size:24");
-			card1_info.getChildren().add(averageTemperature);
-			test.add(card1, 0, 1);
-
-			HBox card2 = new HBox();
-			VBox card2_info = new VBox();
-			card2.getChildren().add(card2_info);
-			Label averageHumidityLabel = new Label("Average humidity");
-			card2_info.getChildren().add(averageHumidityLabel);
-			Label averageHumidity = new Label("69 %");
-			averageHumidity.setStyle("-fx-font-size:24");
-			card2_info.getChildren().add(averageHumidity);
-			test.add(card2, 1, 1);
-
-			HBox card3 = new HBox();
-			VBox card3_info = new VBox();
-			card3.getChildren().add(card3_info);
-			Label averageCarbonDioxideLabel = new Label("Average carbon dioxide");
-			card3_info.getChildren().add(averageCarbonDioxideLabel);
-			Label averageCarbonDioxide = new Label("69 PPM");
-			averageCarbonDioxide.setStyle("-fx-font-size:24");
-			card3_info.getChildren().add(averageCarbonDioxide);
-			test.add(card3, 2, 1);
-
-			content.setContent(test);
-
+			sectionContainer.setFitToWidth(true);
 		}
 		
+		
+		
+		{	
+			Label dashboardHeading = new Label("Dasboard");
+			GridPane.setMargin(dashboardHeading, new Insets(0, 0, 8, 0));
+			dashboardHeading.setStyle("-fx-font-size:32");
+			dashboardContainer.getChildren().add(dashboardHeading);
+			
+			GridPane sensorDataContainer = new GridPane();
+			sensorDataContainer.getColumnConstraints().add(column3Left);
+			sensorDataContainer.getColumnConstraints().add(column3Left);
+			sensorDataContainer.getColumnConstraints().add(column3Left);
+			sensorDataContainer.setPadding(new Insets(16, 16, 16, 16));
+			sensorDataContainer.setStyle("-fx-background-color:#e3e3e3");
+			dashboardContainer.getChildren().add(sensorDataContainer);
 
 
+
+
+			Card temperatureCard = new Card("Average temperature", "69 C");
+			Card humidityCard = new Card("Humidity temperature", "69 %");
+			Card carbonDioxideCard = new Card("Carbon dioxide", "69 PPM");
+			
+			sensorDataContainer.add(temperatureCard.container, 0, 0);
+			sensorDataContainer.add(humidityCard.container, 1, 0);
+			sensorDataContainer.add(carbonDioxideCard.container, 2, 0);
+			
+			
+		      NumberAxis xAxis = new NumberAxis(1960, 2020, 10); 
+		      xAxis.setLabel("Years"); 
+		        
+		      //Defining the y axis   
+		      NumberAxis yAxis = new NumberAxis   (0, 350, 50); 
+		      yAxis.setLabel("No.of schools"); 
+		        
+		      //Creating the line chart 
+		      LineChart linechart = new LineChart(xAxis, yAxis);  
+		        
+		      //Prepare XYChart.Series objects by setting data 
+		      XYChart.Series series = new XYChart.Series(); 
+
+		      series.getData().add(new XYChart.Data(1970, 15)); 
+		      series.getData().add(new XYChart.Data(1980, 30)); 
+		      series.getData().add(new XYChart.Data(1990, 60)); 
+		      series.getData().add(new XYChart.Data(2000, 120)); 
+		      series.getData().add(new XYChart.Data(2013, 240)); 
+		      series.getData().add(new XYChart.Data(2014, 300)); 
+		            
+		      //Setting the data to Line chart    
+		      linechart.getData().add(series);    
+		      
+		      XYChart.Series series2 = new XYChart.Series(); 
+		      series.setName("Temperature"); 
+		        
+		      series2.getData().add(new XYChart.Data(1970, 20)); 
+		      series2.getData().add(new XYChart.Data(1980, 70)); 
+		      series2.getData().add(new XYChart.Data(1990, 30)); 
+		      series2.getData().add(new XYChart.Data(2000, 70)); 
+		      series2.getData().add(new XYChart.Data(2013, 300)); 
+		      series2.getData().add(new XYChart.Data(2014, 260));
+		      series2.setName("Humidity");
+		      linechart.getData().add(series2);
+		      
+
+
+			dashboardContainer.getChildren().add(linechart);
+		      DatePicker date = new DatePicker();
+		      
+		      dashboardContainer.getChildren().add(date);
+			
+			sectionContainer.setContent(dashboardContainer);
+		}
+		
+		sectionContainer.setContent(dashboardContainer);
+		
+		{
+			//Temperature, Humidity, Carbon Dioxide
+			//Interval in minutes
+			//Minutes, Hours, Days, Weeks, Months, Years
+			
+			
+		}
+		
 		stage.setTitle("Monitoring");
 		stage.setScene(scene);
 		stage.setMaximized(true);
