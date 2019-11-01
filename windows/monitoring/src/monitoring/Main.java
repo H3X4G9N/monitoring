@@ -13,14 +13,15 @@ import javafx.scene.control.MenuButton;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Separator;
+import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextField;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -41,10 +42,11 @@ public class Main extends Application {
         VBox resetPasswordRoot = new VBox();
         resetPasswordRoot.setAlignment(Pos.CENTER);
 
-        VBox dashboardRoot = new VBox();
+        VBox panelRoot = new VBox();
 
         Scene scene = new Scene(signInRoot);
 
+        //Sign in
         {
             VBox container = new VBox();
             container.setMinWidth(320);
@@ -71,7 +73,7 @@ public class Main extends Application {
             signInButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                scene.setRoot(dashboardRoot);
+                scene.setRoot(panelRoot);
             }
             });
             container.getChildren().add(signInButton);
@@ -99,6 +101,7 @@ public class Main extends Application {
             container.getChildren().add(resetPasswordLink);
         }
 
+        //Sign up
         {
             VBox container = new VBox();
             container.setMinWidth(320);
@@ -132,7 +135,7 @@ public class Main extends Application {
             signUpButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                scene.setRoot(dashboardRoot);
+                scene.setRoot(panelRoot);
             }
             });
             container.getChildren().add(signUpButton);
@@ -160,6 +163,7 @@ public class Main extends Application {
             container.getChildren().add(resetPasswordLink);
         }
 
+        //Reset password
         {
             VBox container = new VBox();
             container.setMinWidth(320);
@@ -201,6 +205,7 @@ public class Main extends Application {
             container.getChildren().add(signUpLink);
         }
 
+        //Panel
         {
             Image accountImage = new Image(getClass().getResource("/res/img/account.png").toExternalForm());
             Image dataCollectorsImage = new Image(getClass().getResource("/res/img/data_collectors.png").toExternalForm());
@@ -220,22 +225,24 @@ public class Main extends Application {
             topBar.setStyle("-fx-background-color:#f0f0f0");
             topBar.setPadding(new Insets(8, 8, 8, 8));
             topBar.getColumnConstraints().addAll(column, column2);
-            dashboardRoot.getChildren().add(topBar);
+            panelRoot.getChildren().add(topBar);
 
-            HBox section = new HBox();
+            SplitPane section = new SplitPane();
             section.setStyle("-fx-background-color:#e3e3e3");
             section.setPadding(new Insets(8, 8, 8, 8));
-            dashboardRoot.getChildren().add(section);
+            panelRoot.getChildren().add(section);
             VBox.setVgrow(section, Priority.ALWAYS);
 
             VBox sideBar = new VBox();
-            section.getChildren().add(sideBar);
+            sideBar.setMaxWidth(160);
+            sideBar.setPadding(new Insets(0, 8, 0, 0));
+            section.getItems().add(sideBar);
             
             ScrollPane content = new ScrollPane();
             HBox.setHgrow(content, Priority.ALWAYS);
             HBox.setMargin(content, new Insets(0, 0, 0, 8));
             content.setStyle("-fx-background-color:#f0f0f0");
-            section.getChildren().add(content);
+            section.getItems().add(content);
 
             ImageView logoIcon = new ImageView();
             logoIcon.setImage(logoImage);
@@ -255,20 +262,21 @@ public class Main extends Application {
             userNameLabel.setGraphic(accountIcon);
             topBar.add(userNameLabel, 1, 0);
 
-            Button dashboardButton = new Button("Dashboard");
-            dashboardButton.setMinWidth(320);
-            dashboardButton.setAlignment(Pos.BASELINE_LEFT);
-            sideBar.getChildren().add(dashboardButton);
+            Button panelButton = new Button("Dashboard");
+            panelButton.setAlignment(Pos.BASELINE_LEFT);
+            panelButton.setMaxWidth(Double.MAX_VALUE);
+            sideBar.getChildren().add(panelButton);
 
-            ImageView dashboardIcon = new ImageView();
-            dashboardIcon.setImage(dashboardImage);
-            dashboardIcon.setFitWidth(32);
-            dashboardIcon.setFitHeight(32);
-            dashboardButton.setGraphic(dashboardIcon);
+            ImageView panelIcon = new ImageView();
+            panelIcon.setImage(dashboardImage);
+            panelIcon.setFitWidth(32);
+            panelIcon.setFitHeight(32);
+            panelButton.setMaxWidth(Double.MAX_VALUE);
+            panelButton.setGraphic(panelIcon);
 
             Button serverButton = new Button("Server");
-            serverButton.setMinWidth(320);
             serverButton.setAlignment(Pos.BASELINE_LEFT);
+            serverButton.setMaxWidth(Double.MAX_VALUE);
             sideBar.getChildren().add(serverButton);
 
             ImageView serverIcon = new ImageView();
@@ -278,8 +286,8 @@ public class Main extends Application {
             serverButton.setGraphic(serverIcon);
 
             Button dataCollectorsButton = new Button("Data collectors");
-            dataCollectorsButton.setMinWidth(320);
             dataCollectorsButton.setAlignment(Pos.BASELINE_LEFT);
+            dataCollectorsButton.setMaxWidth(Double.MAX_VALUE);
             sideBar.getChildren().add(dataCollectorsButton);
 
             ImageView dataCollectorsIcon = new ImageView();
@@ -289,8 +297,8 @@ public class Main extends Application {
             dataCollectorsButton.setGraphic(dataCollectorsIcon);
 
             Button settingsButton = new Button("Settings");
-            settingsButton.setMinWidth(320);
             settingsButton.setAlignment(Pos.BASELINE_LEFT);
+            settingsButton.setMaxWidth(Double.MAX_VALUE);
             sideBar.getChildren().add(settingsButton);
 
             ImageView settingsIcon = new ImageView();
@@ -298,6 +306,67 @@ public class Main extends Application {
             settingsIcon.setFitWidth(32);
             settingsIcon.setFitHeight(32);
             settingsButton.setGraphic(settingsIcon);
+
+            ColumnConstraints column3 = new ColumnConstraints();
+            column3.setPercentWidth(33);
+
+            ColumnConstraints column4 = new ColumnConstraints();
+            column4.setPercentWidth(33);
+            
+            ColumnConstraints column5 = new ColumnConstraints();
+            column5.setPercentWidth(33);
+            
+            content.setPadding(new Insets(8, 8, 8, 8));
+
+            content.setFitToWidth(true);
+            
+            
+            
+            GridPane test = new GridPane();
+            test.getColumnConstraints().add(column3);
+            test.getColumnConstraints().add(column4);
+            test.getColumnConstraints().add(column5);
+            test.setStyle("-fx-background-color:#e3e3e3");
+            test.setPadding(new Insets(16, 16, 16, 16));
+            
+
+            HBox card1 = new HBox();
+            VBox card1_info = new VBox();
+            card1.getChildren().add(card1_info);
+            Label averageTemperatureLabel = new Label("Average temperature");
+            card1_info.getChildren().add(averageTemperatureLabel);
+            Label averageTemperature = new Label("69 C");
+            averageTemperature.setStyle("-fx-font-size:24");
+            card1_info.getChildren().add(averageTemperature);
+            test.add(card1, 0, 0);
+            
+            HBox card2 = new HBox();
+            VBox card2_info = new VBox();
+            card2.getChildren().add(card2_info);
+            Label averageHumidityLabel = new Label("Average humidity");
+            card2_info.getChildren().add(averageHumidityLabel);
+            Label averageHumidity = new Label("69 %");
+            averageHumidity.setStyle("-fx-font-size:24");
+            card2_info.getChildren().add(averageHumidity);
+            test.add(card2, 1, 0);
+            
+            HBox card3 = new HBox();
+            VBox card3_info = new VBox();
+            card3.getChildren().add(card3_info);
+            Label averageCarbonDioxideLabel = new Label("Average carbon dioxide");
+            card3_info.getChildren().add(averageCarbonDioxideLabel);
+            Label averageCarbonDioxide = new Label("69 PPM");
+            averageCarbonDioxide.setStyle("-fx-font-size:24");
+            card3_info.getChildren().add(averageCarbonDioxide);
+            test.add(card3, 2, 0);
+            
+            content.setContent(test);
+        }
+        
+        //Dashboard
+        {
+
+        	
         }
 
         stage.setTitle("Monitoring");
