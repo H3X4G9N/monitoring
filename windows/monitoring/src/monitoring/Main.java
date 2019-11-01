@@ -9,7 +9,9 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuButton;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Separator;
 import javafx.scene.control.TextField;
 import javafx.scene.Group;
@@ -17,6 +19,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.Scene;
@@ -39,7 +42,6 @@ public class Main extends Application {
         resetPasswordRoot.setAlignment(Pos.CENTER);
 
         VBox dashboardRoot = new VBox();
-        dashboardRoot.setPadding(new Insets(16, 16, 16, 16));
 
         Scene scene = new Scene(signInRoot);
 
@@ -215,15 +217,25 @@ public class Main extends Application {
             column2.setHalignment(HPos.RIGHT);;
 
             GridPane topBar = new GridPane();
-            VBox.setMargin(topBar, new Insets(0, 0, 16, 0));
+            topBar.setStyle("-fx-background-color:#f0f0f0");
+            topBar.setPadding(new Insets(8, 8, 8, 8));
             topBar.getColumnConstraints().addAll(column, column2);
             dashboardRoot.getChildren().add(topBar);
 
             HBox section = new HBox();
+            section.setStyle("-fx-background-color:#e3e3e3");
+            section.setPadding(new Insets(8, 8, 8, 8));
             dashboardRoot.getChildren().add(section);
+            VBox.setVgrow(section, Priority.ALWAYS);
 
             VBox sideBar = new VBox();
             section.getChildren().add(sideBar);
+            
+            ScrollPane content = new ScrollPane();
+            HBox.setHgrow(content, Priority.ALWAYS);
+            HBox.setMargin(content, new Insets(0, 0, 0, 8));
+            content.setStyle("-fx-background-color:#f0f0f0");
+            section.getChildren().add(content);
 
             ImageView logoIcon = new ImageView();
             logoIcon.setImage(logoImage);
@@ -239,7 +251,7 @@ public class Main extends Application {
             accountIcon.setFitWidth(32);
             accountIcon.setFitHeight(32);
 
-            Label userNameLabel = new Label("Deniss Strombergs");
+            MenuButton userNameLabel = new MenuButton("Deniss Strombergs");
             userNameLabel.setGraphic(accountIcon);
             topBar.add(userNameLabel, 1, 0);
 
