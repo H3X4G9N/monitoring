@@ -54,61 +54,46 @@ public class Main extends Application {
 		VBox panelRoot = new VBox();
 
 		Scene scene = new Scene(signInRoot);
-
+		VBox dcsContainer;
+		
+		//////////////////////////////////////////////////////LOGIN FORM
 		{
 			VBox container = new VBox();
 			container.setMinWidth(320);
 			container.setMinHeight(180);
 			container.setPrefWidth(320);
 			container.setPrefHeight(180);
+			container.requestFocus();
 			signInRoot.getChildren().add(new Group(container));
 
-			Label emailLabel = new Label("Email");
-			container.getChildren().add(emailLabel);
+			
+			TextField username = new TextField();
+			username.setPromptText("Username");
+			VBox.setMargin(username, new Insets(0, 0, 16, 0));
+			container.getChildren().add(username);
 
-			TextField emailInput = new TextField();
-			VBox.setMargin(emailInput, new Insets(0, 0, 16, 0));
-			container.getChildren().add(emailInput);
-
-			Label passwordLabel = new Label("Password");
-			container.getChildren().add(passwordLabel);
 
 			PasswordField passwordInput = new PasswordField();
+			passwordInput.setPromptText("password");
 			VBox.setMargin(passwordInput, new Insets(0, 0, 16, 0));
 			container.getChildren().add(passwordInput);
 
+			VBox container1 = new VBox();
 			Button signInButton = new Button("Sign in");
+			signInButton.setPrefWidth(320);
 			signInButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				scene.setRoot(panelRoot);
+				if(username.getText().equals("root") && passwordInput.getText().equals("root"))
+					scene.setRoot(panelRoot);
 			}
 			});
-			container.getChildren().add(signInButton);
-
-			Separator separator = new Separator();
-			separator.setMinHeight(16);
-			container.getChildren().add(separator);
-
-			Hyperlink signUpLink = new Hyperlink("Sign up");
-			signUpLink.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				scene.setRoot(signUpRoot);
-			}
-			});
-			container.getChildren().add(signUpLink);
-
-			Hyperlink resetPasswordLink = new Hyperlink("Reset password");
-			resetPasswordLink.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				scene.setRoot(resetPasswordRoot);
-			}
-			});
-			container.getChildren().add(resetPasswordLink);
+			container1.setAlignment(Pos.CENTER);
+			container1.getChildren().add(signInButton);
+			container.getChildren().add(container1);
+			signInRoot.requestFocus();
 		}
-
+		////////////////////////////////////////////////////////////////
 		{
 			VBox container = new VBox();
 			container.setMinWidth(320);
@@ -251,12 +236,32 @@ public class Main extends Application {
 			sensorContainer.getColumnConstraints().addAll(column3Center, column3Center, column3Center);
 		}
 		
+		
 		{
-			Image accountImage = new Image(getClass().getResource("/res/img/account.png").toExternalForm());
+			dcsContainer = new VBox();
+			
+			HBox dcContainer = new HBox();
+			
+			Label dcName = new Label("Data collector 1");
+			dcContainer.getChildren().add(dcName);
+			
+			Label dcTemperature = new Label("Temperature: 0 C");
+			dcContainer.getChildren().add(dcTemperature);
+			
+			Label dcHumidity = new Label("Humidity: 0 %");
+			dcContainer.getChildren().add(dcHumidity);
+			
+			Label dcCarbonDioxide = new Label("Carbon dioxide: 0 PPM");
+			dcContainer.getChildren().add(dcCarbonDioxide);
+			
+			dcsContainer.getChildren().add(dcContainer);
+		}
+		
+		{
 			Image dataCollectorsImage = new Image(getClass().getResource("/res/img/data_collectors.png").toExternalForm());
 			Image dashboardImage = new Image(getClass().getResource("/res/img/dashboard.png").toExternalForm());
 			Image logoImage = new Image(getClass().getResource("/res/img/logo.png").toExternalForm());
-			Image serverImage = new Image(getClass().getResource("/res/img/server.png").toExternalForm());
+			//Image serverImage = new Image(getClass().getResource("/res/img/server.png").toExternalForm());
 			Image settingsImage = new Image(getClass().getResource("/res/img/settings.png").toExternalForm());
 
 			GridPane topBar = new GridPane();
@@ -291,14 +296,7 @@ public class Main extends Application {
 			appName.setGraphic(logoIcon);
 			topBar.add(appName, 0, 0);
 
-			ImageView accountIcon = new ImageView();
-			accountIcon.setImage(accountImage);
-			accountIcon.setFitWidth(32);
-			accountIcon.setFitHeight(32);
-
-			MenuButton userNameLabel = new MenuButton("Deniss Strombergs");
-			userNameLabel.setGraphic(accountIcon);
-			topBar.add(userNameLabel, 1, 0);
+		
 
 			Button dashboardButton = new Button("Dashboard");
 			dashboardButton.setAlignment(Pos.BASELINE_LEFT);
@@ -320,16 +318,16 @@ public class Main extends Application {
 			dashboardButton.setMaxWidth(Double.MAX_VALUE);
 			dashboardButton.setGraphic(panelIcon);
 
-			Button serverButton = new Button("Server");
-			serverButton.setAlignment(Pos.BASELINE_LEFT);
-			serverButton.setMaxWidth(Double.MAX_VALUE);
-			sideBar.getChildren().add(serverButton);
+			//Button serverButton = new Button("Server");
+			//serverButton.setAlignment(Pos.BASELINE_LEFT);
+			//serverButton.setMaxWidth(Double.MAX_VALUE);
+			//sideBar.getChildren().add(serverButton);
 
-			ImageView serverIcon = new ImageView();
-			serverIcon.setImage(serverImage);
-			serverIcon.setFitWidth(32);
-			serverIcon.setFitHeight(32);
-			serverButton.setGraphic(serverIcon);
+			//ImageView serverIcon = new ImageView();
+			//serverIcon.setImage(serverImage);
+			//serverIcon.setFitWidth(32);
+			//serverIcon.setFitHeight(32);
+			//serverButton.setGraphic(serverIcon);
 
 			Button dataCollectorsButton = new Button("Data collectors");
 			dataCollectorsButton.setAlignment(Pos.BASELINE_LEFT);
@@ -338,7 +336,7 @@ public class Main extends Application {
 			dataCollectorsButton.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent event) {
-					sectionContainer.setContent(dataCollectorContainer);
+					sectionContainer.setContent(dcsContainer);
 				}
 				});
 			
@@ -367,8 +365,6 @@ public class Main extends Application {
 			sectionContainer.setFitToWidth(true);
 		}
 		
-		
-		
 		{	
 			Label dashboardHeading = new Label("Dasboard");
 			GridPane.setMargin(dashboardHeading, new Insets(0, 0, 8, 0));
@@ -382,9 +378,6 @@ public class Main extends Application {
 			sensorDataContainer.setPadding(new Insets(16, 16, 16, 16));
 			sensorDataContainer.setStyle("-fx-background-color:#e3e3e3");
 			dashboardContainer.getChildren().add(sensorDataContainer);
-
-
-
 
 			Card temperatureCard = new Card("Average temperature", "69 C");
 			Card humidityCard = new Card("Humidity temperature", "69 %");
@@ -446,8 +439,6 @@ public class Main extends Application {
 			//Temperature, Humidity, Carbon Dioxide
 			//Interval in minutes
 			//Minutes, Hours, Days, Weeks, Months, Years
-			
-			
 		}
 		
 		stage.setTitle("Monitoring");
