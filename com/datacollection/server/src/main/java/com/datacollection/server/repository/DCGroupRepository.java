@@ -19,8 +19,8 @@ public interface DCGroupRepository extends JpaRepository<DCGroup, Long> {
     @Query(value = "SELECT * FROM dc_group WHERE visible = true AND id = :id", nativeQuery = true)
     DCGroup findVisibleByID(@Param("id") Long id);
 
-    @Query(value = "SELECT * FROM dc_group WHERE visible = true AND id = :id AND password = :password", nativeQuery = true)
-    DCGroup findVisibleByIDAndPassword(@Param("id") Long id, @Param("password") String password);
+    @Query(value = "SELECT * FROM dc_group WHERE visible = true AND name = :name AND password = :password", nativeQuery = true)
+    DCGroup findVisibleByNameAndPassword(@Param("name") String name, @Param("password") String password);
 
     @Query(value = "SELECT * FROM dc_group WHERE visible = true", nativeQuery = true)
     List<DCGroup> findAllVisible();
@@ -29,12 +29,14 @@ public interface DCGroupRepository extends JpaRepository<DCGroup, Long> {
     DCGroup findVisibleByName(@Param("name") String name);
 
     @Query(value = "SELECT * FROM dc_group WHERE user = :user", nativeQuery = true)
-    List<DCGroup> findAllByUser(@Param("user") String user);
+    List<DCGroup> findAllByUser(@Param("user") Long user);
 
     @Query(value = "SELECT * FROM dc_group WHERE token = :token", nativeQuery = true)
     DCGroup findByDCGroupToken(@Param("token") String token);
 
+    @Query(value = "SELECT * FROM dc_group WHERE name = :name AND user = :user ", nativeQuery = true)
+    DCGroup findByNameAndUser(@Param("name") String name, @Param("user") Long user);
 
-
-
+    @Query(value = "SELECT * FROM dc_group WHERE id = :id AND user = :user ", nativeQuery = true)
+    DCGroup findByIDAndUser(@Param("id") Long id, @Param("user") Long user);
 }

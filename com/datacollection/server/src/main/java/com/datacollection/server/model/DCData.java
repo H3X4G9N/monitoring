@@ -1,7 +1,9 @@
 package com.datacollection.server.model;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.data.annotation.CreatedDate;
@@ -11,37 +13,50 @@ import java.util.Date;
 
 @Entity
 @Table(name = "dc_data")
-@JsonIgnoreProperties(value = {"timestamp"})
 public class DCData {
+    @Column(name = "id")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "timestamp", unique = true, nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     @CreatedDate
     private Date timestamp;
+
+    @Column(name = "carbon_dioxide", nullable = false)
     private Double carbonDioxide;
+
+    @Column(name = "humidity", nullable = false)
     private Double humidity;
+
+    @Column(name = "temperature", nullable = false)
     private Double temperature;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "dataCollector", nullable = false)
+    @JoinColumn(name = "dc", nullable = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonIgnore
-    private DC dataCollector;
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+    @JsonIdentityReference(alwaysAsId = true)
+    private DC dc;
 
     public DCData() {
 
     }
 
-    public DCData(Double carbonDioxide, Double humidity, Double temperature, DC dataCollector) {
+    public DCData(Double carbonDioxide, Double humidity, Double temperature, DC dc) {
         this.carbonDioxide = carbonDioxide;
         this.humidity = humidity;
         this.temperature = temperature;
-        this.dataCollector = dataCollector;
+        this.dc = dc;
     }
 
-    public Long getId() {
+    public Long getID() {
         return id;
+    }
+
+    public void setID(Long id) {
+        this.id = id;
     }
 
     public Date getTimestamp() {
@@ -77,10 +92,10 @@ public class DCData {
     }
 
     public DC getDC() {
-        return dataCollector;
+        return dc;
     }
 
     public void setDC(DC dataCollector) {
-        this.dataCollector = dataCollector;
+        this.dc = dc;
     }
 }

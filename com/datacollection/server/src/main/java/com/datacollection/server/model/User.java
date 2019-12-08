@@ -1,45 +1,46 @@
 package com.datacollection.server.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Table(name = "user")
 public class User {
+    @Column(name = "id")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(unique = true)
+
+    @Column(name = "username", unique = true, nullable = false)
     private String username;
-    @Column(unique = true)
+
+    @Column(name = "email", unique = true)
     private String email;
+
+    @Column(name = "password", nullable = false)
+    @JsonIgnore
     private String password;
-    @Column(unique = true)
+
+    @Column(name = "token", unique = true)
     private String token;
-
-    @OneToMany(mappedBy = "user")
-    private List<DCGroup> dcGroups = new ArrayList<DCGroup>();
-
-
-    @OneToMany(mappedBy = "userDC")
-    private List<DC> dc = new ArrayList<DC>();
-
-
 
     public User() {
 
     }
 
-    public User(String username, String email, String password, String token) {
+    public User(String username, String email, String password) {
         this.username = username;
         this.email = email;
         this.password = password;
-        this.token = token;
     }
 
-    public Long getId() {
+    public Long getID() {
         return id;
+    }
+
+    public void setID(Long id) {
+        this.id = id;
     }
 
     public String getUsername() {

@@ -7,9 +7,10 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;
+import java.util.List;
 
 @Repository
 public interface DCDataRepository extends JpaRepository<DCData, Long> {
-    @Query(value = "SELECT * FROM dc_data WHERE timestamp = :timestamp", nativeQuery = true)
-    DCData findById(@Param("timestamp") Date timestamp);
+    @Query(value = "SELECT * FROM dc_data WHERE dc = :dc", nativeQuery = true)
+    List<DCData> findAllByDC(@Param("dc") Long dc);
 }

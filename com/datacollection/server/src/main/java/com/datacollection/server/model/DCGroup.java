@@ -1,54 +1,64 @@
 package com.datacollection.server.model;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Table(name = "dc_group")
 public class DCGroup {
+    @Column(name = "id")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(unique = true)
+
+    @Column(name = "name", unique = true, nullable = false)
     private String name;
+
+    @Column(name = "description", nullable = false)
     private String description;
+
+    @Column(name = "visible", nullable = false)
     private Boolean visible;
-    private Boolean permissionRequired;
-    private String password;
-    @Column(unique = true)
-    private String token;
 
-
-
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "user", nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
+    @Column(name = "password")
     @JsonIgnore
+    private String password;
+
+    @Column(name = "permission_required", nullable = false)
+    private Boolean permissionRequired;
+
+    @JoinColumn(name = "user", nullable = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "username")
+    @JsonIdentityReference(alwaysAsId = true)
     private User user;
-    @OneToMany(mappedBy = "dcGroup")
-    private List<DC> dataCollectors = new ArrayList<DC>();
 
     public DCGroup() {
 
     }
 
-    public DCGroup(String name, String description, Boolean visible, String password, Boolean permissionRequired, String token, User user) {
+    public DCGroup(String name, String description, Boolean visible, String password, Boolean permissionRequired, User user) {
         this.name = name;
         this.description = description;
         this.visible = visible;
         this.password = password;
         this.permissionRequired = permissionRequired;
-        this.token = token;
         this.user = user;
     }
 
-    public Long getId() {
+    public Long getID() {
         return id;
+    }
+
+    public void setID(Long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -67,14 +77,6 @@ public class DCGroup {
         this.description = description;
     }
 
-    public Boolean getPermissionRequired() {
-        return permissionRequired;
-    }
-
-    public void setPermissionRequired(Boolean permissionRequired) {
-        this.permissionRequired = permissionRequired;
-    }
-
     public Boolean getVisible() {
         return visible;
     }
@@ -91,12 +93,12 @@ public class DCGroup {
         this.password = password;
     }
 
-    public String getToken() {
-        return token;
+    public Boolean getPermissionRequired() {
+        return permissionRequired;
     }
 
-    public void setToken(String token) {
-        this.token = token;
+    public void setPermissionRequired(Boolean permissionRequired) {
+        this.permissionRequired = permissionRequired;
     }
 
     public User getUser() {

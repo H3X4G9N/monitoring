@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.datacollection.server.Utility;
 
 @RestController
 @RequestMapping("/api")
@@ -14,7 +13,7 @@ public class UserController {
     @Autowired
     UserRepository userRepository;
 
-    @PostMapping("/user/register")
+    @PostMapping("/unauthorized/user/register")
     public ResponseEntity<?> register(@RequestParam(value = "username") String username,
                                            @RequestParam(value = "email") String email,
                                            @RequestParam(value = "password") String password) {
@@ -23,33 +22,31 @@ public class UserController {
         if (user != null) {
             return new ResponseEntity(HttpStatus.NOT_ACCEPTABLE);
         } else {
-            String token = Utility.generateToken();
-
-            User newUser = new User(username, email, password, token);
+            User newUser = new User(username, email, password);
             userRepository.save(newUser);
 
             return new ResponseEntity(HttpStatus.OK);
         }
     }
 
-    @GetMapping("/user/authorize")
+    @GetMapping("/unauthorized/user/authorize")
     public ResponseEntity<?> authorize(@RequestParam(value = "username") String username,
                             @RequestParam(value = "password") String password) {
         User user = userRepository.findByUsernameAndPassword(username, password);
 
         if (user != null) {
-            String token =  Utility.generateToken();
+            String token = "user-token";
 
             user.setToken(token);
             userRepository.save(user);
 
-            return ResponseEntity.status(HttpStatus.OK).body(token);
+            return ResponseEntity.status(HttpStatus.OK).body(user);
         } else {
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).build();
         }
     }
 
-    @GetMapping("/user/authenticate")
+    @GetMapping("/authorized/user/authenticate")
     public ResponseEntity<?> authenticate(@RequestParam(value = "username") String username, @RequestParam(value = "token") String token) {
         User user = userRepository.findByUsernameAndToken(username, token);
 

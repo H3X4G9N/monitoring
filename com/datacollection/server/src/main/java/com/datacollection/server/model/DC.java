@@ -1,56 +1,77 @@
 package com.datacollection.server.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
-@Table(name = "data_collector")
+@Table(name = "dc")
+@EntityListeners(AuditingEntityListener.class)
+@JsonIgnoreProperties(value = "dcgroup")
 public class DC {
+    @Column(name = "id")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "name", nullable = false)
     private String name;
+
+    @Column(name = "description", nullable = false)
     private String description;
+
+    @Column(name = "password", nullable = false)
+    @JsonIgnore
     private String password;
-    private String token;
+
+    @Column(name = "activated", nullable = false)
+    @JsonIgnore
     private Boolean activated;
+
+    @Column(name = "activation_key", unique = true, nullable = false)
+    @JsonIgnore
     private String activationKey;
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "dcGroup", nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
+
+    @Column(name = "token", unique = true)
     @JsonIgnore
+    private String token;
+
+    @JoinColumn(name = "user")
+    @ManyToOne(targetEntity = User.class, cascade = CascadeType.ALL)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "username")
+    @JsonIdentityReference(alwaysAsId = true)
+    private User user;
+
+    @JoinColumn(name = "dcGroup")
+    @OneToOne(targetEntity = DCGroup.class, fetch = FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonProperty(value = "dcGroup")
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "name")
+    @JsonIdentityReference(alwaysAsId = true)
     private DCGroup dcGroup;
-
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "userDC", nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonIgnore
-    private User userDC;
-
-    @OneToMany(mappedBy = "dataCollector")
-    private List<DCData> dcData = new ArrayList<DCData>();
 
     public DC() {
 
     }
 
-    public DC(String name, String description, String password, String token, Boolean activated, String activationKey, DCGroup dcGroup) {
+    public DC(String name, String description, String password, Boolean activated, String activationKey) {
         this.name = name;
         this.description = description;
         this.password = password;
-        this.token = token;
         this.activated = activated;
         this.activationKey = activationKey;
-        this.dcGroup = dcGroup;
     }
 
-    public Long getId() {
+    public Long getID() {
         return id;
+    }
+
+    public void setID(Long id) {
+        this.id = id;
     }
 
     public String getPassword() {
@@ -109,11 +130,11 @@ public class DC {
         this.dcGroup = dcGroup;
     }
 
-    public User getUserDC() {
-        return userDC;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserDC(User userDC) {
-        this.userDC = userDC;
+    public void setUser(User user) {
+        this.user = user;
     }
 }
