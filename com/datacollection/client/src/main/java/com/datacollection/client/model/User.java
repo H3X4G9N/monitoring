@@ -55,7 +55,7 @@ public class User  {
         this.token = token;
     }
 
-    public static String register(String username, String email, String password) throws Exception {
+    public static String register(String username, String email, String password) {
         String pathURL = "/unauthorized/user/register?username=" + username + "&email=" + email + "&password=" + password;
 
         try {

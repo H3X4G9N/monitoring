@@ -1,15 +1,10 @@
 package com.datacollection.client;
 
-import com.datacollection.client.model.*;
 import javafx.application.Application;
 import javafx.scene.layout.VBox;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import com.datacollection.client.components.*;
-
-
-import java.util.List;
-import java.util.SortedSet;
 
 public class Client extends Application {
     public static void main(String[] args) {
@@ -20,6 +15,7 @@ public class Client extends Application {
     public void start(Stage stage) throws Exception {
         Scene scene = new Scene(new VBox());
 
+        /*
         System.out.println(User.register("user", "user@gmail.com", "password"));
 
         System.out.println(User.register("user2", "user2@gmail.com", "password2"));
@@ -75,6 +71,7 @@ public class Client extends Application {
 
         List<DCData> dcData = DCData.getAllFromDC(dcs.get(0).getId(), dcGroupAuthentication.getToken());
         System.out.println(dcData);
+         */
 
         Controller controller = new Controller(scene);
         controller.addElement("start", new Start());
@@ -82,11 +79,12 @@ public class Client extends Application {
         controller.addElement("arpr", new ARRP(ARRPType.Authorization, IDType.Email));
         controller.addElement("data-collector-management", new DataCollectorManagement());
         controller.addElement("account", new Account());
-        controller.setElement("start");
+        controller.addElement("data-collection", new DataLoggingComponent());
+        controller.setElement("data-collection");
 
         stage.setMaximized(true);
         stage.setTitle("Monitoring");
         stage.setScene(scene);
-        //stage.show();
+        stage.show();
     }
 }
