@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AllVisibleGroupActivity">
+
+    <TextView
+        android:id="@+id/root_group_annotation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textSize="18dp"
+        android:text="Please, insert password of the group, you chosen"
+        android:textAlignment="center"
+        android:layout_centerHorizontal="true"/>
+
+    <EditText
+        android:id="@+id/root_group_password"
+        android:layout_width="match_parent"
+        android:layout_marginEnd="64dp"
+        android:layout_marginStart="64pt"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/root_group_annotation"
+        android:layout_centerHorizontal="true"
+        android:inputType="textPassword"
+        android:layout_marginRight="64dp"
+        android:layout_marginLeft="64pt"
+        android:hint="Group password"/>
+    <TextView
+        android:id="@+id/incorrect_password_annotation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/root_group_password"
+        android:textColor="#FF0000"
+        android:text=""/>
+
+
+    <Button
+        android:id="@+id/authorize_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ok"
+        android:layout_below="@+id/incorrect_password_annotation"
+        android:layout_centerHorizontal="true"
+        android:onClick="AuthorizeRootGroup"/>
+
+    <TextView
+        android:id="@+id/visible_group_list_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/authorize_button"
+        android:text=""/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:context=".AllVisibleGroupActivity"
+            android:id="@+id/visible_group_recycler_view"
+            android:scrollbars="vertical"
+            android:layout_below="@+id/visible_group_list_text"/>
+
+
+
+
+
+</RelativeLayout>

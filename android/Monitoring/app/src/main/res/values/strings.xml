@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">Monitoring</string>
+    <string name="manage_dc_title">Manage Data Collectors</string>
+    <string name="manage_dc_info">Connect and watch for your own groups data collectors. </string>
+    <string name="manage_dc_button">Log in</string>
+    <string name="watch_dc_title">Watch Data Collectors</string>
+    <string name="watch_dc_info">Look for groups and public data loggers. </string>
+    <string name="watch_dc_button">Look up</string>
+    <string name="username_edit_hint">Username</string>
+    <string name="password_edit_hint">Password</string>
+    <string name="new_password_edit_hint">New password</string>
+    <string name="repeat_password_edit_hint">Repeat password</string>
+    <string name="login_button_text">Log in</string>
+    <string name="signup_button_text">Sign up</string>
+    <string name="Open">Open</string>
+    <string name="Close">Close</string>
+    <string name="new_acc">"Don't have an account ?"</string>
+    <string name="have_acc">"Have an account ?"</string>
+    <string name="email_edit_hint">Email</string>
+</resources>

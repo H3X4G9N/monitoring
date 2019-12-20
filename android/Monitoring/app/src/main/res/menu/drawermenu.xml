@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/nav_dashboard" android:title="Dashboard" android:icon="@drawable/ic_dasboard" />
+    <item android:id="@+id/nav_groups" android:title="Groups" android:icon="@drawable/ic_group"/>
+    <item android:id="@+id/nav_data_collectors" android:title="Data Loggers" android:icon="@drawable/ic_data_collection"/>
+</menu>

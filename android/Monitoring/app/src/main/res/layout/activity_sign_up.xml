@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SignUPActivity"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <EditText
+        android:id="@+id/register_username"
+        android:layout_width="190dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="60dp"
+        android:hint="@string/username_edit_hint"
+        />
+    <EditText
+        android:id="@+id/register_email"
+        android:layout_width="190dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:hint="@string/email_edit_hint"
+        />
+    <EditText
+        android:id="@+id/register_password"
+        android:layout_width="190dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:hint="@string/password_edit_hint"
+        android:inputType="textPassword"
+        />
+    <Button
+        android:id="@+id/register_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/signup_button_text"
+        android:onClick="tryRegistration"
+        />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:text="@string/have_acc"
+            />
+        <TextView
+            android:id="@+id/login_now"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:text="@string/login_button_text"
+            android:paddingLeft="10dp"
+            android:textStyle="bold"
+            />
+
+    </LinearLayout>
+
+
+</LinearLayout>
